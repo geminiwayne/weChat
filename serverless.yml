@@ -1,0 +1,47 @@
+      
+service: Question
+
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+provider:
+   name: aws
+   runtime: go1.x
+   stage: dev
+   region: us-east-1
+   iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - "s3:*"
+      Resource:
+        - "*"
+
+functions:
+   PostQuestion:
+    # post questions to database
+    handler: src/bin/PostQuestion
+    events:
+      - http:
+          path: question
+          method: post
+          cors: true
+   GetQuestion:
+    handler: src/bin/GetQuestion
+    # get question from dynamoDB with category
+    events:
+      - http:
+          path: question/{category}
+          method: get
+          cors: true
+
+package:
+  exclude:
+    - src/**
+  include:
+    - src/index.js
+    - src/bin/PostQuestion
+    - src/bin/GetQuestion
