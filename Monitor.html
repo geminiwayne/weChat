@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>微信小程序管理</title>
+<style>
+      .tp { position: absolute; top: 0; left: 0; right: 0; bottom: 90%; border:solid #000; border-width: 1px 1px 0 1px; }
+      .tl { position: absolute; top: 10%; left: 0; right: 50%; bottom: 50%; border:solid #000; border-width: 0 0 0 1px; }
+      .tr { position: absolute; top: 10%; left: 50%; right: 0; bottom: 50%; border:solid #000; border-width: 0 1px 0 0; }
+      .bt { position: absolute; top: 50%; bottom: 0; left: 0; right: 0; border:solid #000; border-width: 0 1px 1px 1px; }
+      table.solid {border-style: solid;}
+      label.ridge {border-style: ridge;}
+</style>
+</head>
+<body>
+<div class ="tp" align = "center">
+<h1 style="color:Tomato;">微信小程序管理</h1>
+</div>
+<div class = "tl" align = "center">
+ <label class="ridge" style="color:Tomato;">上传数据</label>
+ <br>
+ <br>
+ <table class = "solid">
+  <tr>
+  <th style="color:Tomato;">请输入问题:</th>
+  <td><input id="Question" align ="center" placeholder="问题"></input></td>
+  </tr>
+  <tr>
+  <th style="color:Tomato;">答案1:</th>
+  <td><input id="Answer1" align ="center" placeholder="答案1"></input></td>
+  </tr>
+   <tr>
+  <th style="color:Tomato;">答案2:</th>
+  <td><input id="Answer2" align ="center" placeholder="答案2"></input></td>
+  </tr>
+     <tr>
+  <th style="color:Tomato;">答案3:</th>
+  <td><input id="Answer3" align ="center" placeholder="答案3"></input></td>
+  </tr>
+     <tr>
+  <th style="color:Tomato;">答案4:</th>
+  <td><input id="Answer4" align ="center" placeholder="答案4"></input></td>
+  </tr>
+  <tr><th style="color:Tomato;">类型:</th>
+  <td>
+  <form action="#" method="post">
+  <div>
+    <select align = "center" id= "category">
+      <option value="0">选择</option>
+      <option value="1">生活</option>
+      <option value="2">体育</option>
+      <option value="3">政治</option>
+      <option value="4">广告</option>
+      </select>
+  </div>
+</form></td>
+</tr>
+<tr>
+<td align="center" onclick="Upload();"><button>上传</button></td>
+<td align="center" onclick="Clear();"><button>取消</button></td>
+</tr>
+</table>
+</div>
+<div class = "tr" align = "center">
+ <label class="ridge" style="color:Tomato;">可视化数据</label>
+ <br>
+ <br>
+ <table class = "solid">
+  <tr><th style="color:Tomato;">数据种类:</th>
+  <td>
+  <form action="#" method="post">
+  <div>
+    <select align = "center" id= "dataCategory">
+      <option value="0">选择</option>
+      <option value="1">生活</option>
+      <option value="2">体育</option>
+      <option value="3">新闻</option>
+      <option value="4">广告</option>
+      <option value="5">全部</option>
+      </select>
+  </div>
+</form></td>
+</tr>
+  <tr><th style="color:Tomato;">请选择可视化方法:</th>
+  <td>
+  <form action="#" method="post">
+  <div>
+    <select align = "center" id= "plot">
+      <option value="0">选择</option>
+      <option value="1">柱状图</option>
+      <option value="2">条形图</option>
+      <option value="3">线形图</option>
+      <option value="4">饼状图</option>
+      </select>
+  </div>
+</form></td>
+</tr>
+<tr>
+<td>
+<div align ="center">
+<button type="button"  onclick="plotChart();">提交</button>
+</div>
+</td>
+</tr>
+  </table>
+</div>
+<div class = "bt">
+</div>
+</body>
+</html>
