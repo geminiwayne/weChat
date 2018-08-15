@@ -39,6 +39,7 @@ var header = map[string]string{
 
 // to connect the database and to use get method to get the question with category from database
 // https://url/question/{category}
+// https://url/question/all for scan all the items in the table
 func GetQuestion(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
 	var category = request.PathParameters["category"]
@@ -57,21 +58,27 @@ func GetQuestion(ctx context.Context, request events.APIGatewayProxyRequest) (ev
 
 	// Create DynamoDB client
 	svc := dynamodb.New(sess)
-	flit := expression.Name("category").Equal(expression.Value(category))
-	proj := expression.NamesList(expression.Name("id"), expression.Name("category"), expression.Name("question"), expression.Name("answer1"), expression.Name("answer2"), expression.Name("answer3"), expression.Name("answer4"))
-	expr, err := expression.NewBuilder().WithFilter(flit).WithProjection(proj).Build()
+	var params *dynamodb.ScanInput
+	if category == "all" {
+		params = &dynamodb.ScanInput{
+			TableName: aws.String(tableName),
+		}
+	} else {
+		flit := expression.Name("category").Equal(expression.Value(category))
+		proj := expression.NamesList(expression.Name("id"), expression.Name("category"), expression.Name("question"), expression.Name("answer1"), expression.Name("answer2"), expression.Name("answer3"), expression.Name("answer4"))
+		expr, err := expression.NewBuilder().WithFilter(flit).WithProjection(proj).Build()
 
-	if err != nil {
-		panic(err)
+		if err != nil {
+			panic(err)
+		}
+		params = &dynamodb.ScanInput{
+			ExpressionAttributeNames:  expr.Names(),
+			ExpressionAttributeValues: expr.Values(),
+			FilterExpression:          expr.Filter(),
+			ProjectionExpression:      expr.Projection(),
+			TableName:                 aws.String(tableName),
+		}
 	}
-	params := &dynamodb.ScanInput{
-		ExpressionAttributeNames:  expr.Names(),
-		ExpressionAttributeValues: expr.Values(),
-		FilterExpression:          expr.Filter(),
-		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String(tableName),
-	}
-
 	// scan all the item which meet requirments in the table
 	result, err := svc.Scan(params)
 
