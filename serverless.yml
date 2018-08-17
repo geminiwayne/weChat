@@ -37,6 +37,22 @@ functions:
           path: question/{category}
           method: get
           cors: true
+   PostAnswer:
+    # post answers to database
+    handler: src/bin/PostAnswer
+    events:
+      - http:
+          path: answer
+          method: post
+          cors: true
+   GetAnswer:
+    handler: src/bin/GetAnswer
+    # get answer from dynamoDB with category
+    events:
+      - http:
+          path: answer/{category}
+          method: get
+          cors: true
 
 package:
   exclude:
@@ -45,3 +61,5 @@ package:
     - src/index.js
     - src/bin/PostQuestion
     - src/bin/GetQuestion
+    - src/bin/PostAnswer
+    - src/bin/GetAnswer
